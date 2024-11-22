@@ -6,7 +6,10 @@ from datetime import datetime
 # Get the current date and format it as m/d/yyyy
 date_str = datetime.now().strftime("%m/%d/%Y")
 
-client = OpenAI(api_key=OPENAI_IPA_KEY)
+# Access the key from secrets
+API_KEY = st.secrets["general"]["OPENAI_API_KEY"]
+
+client = OpenAI(api_key=API_KEY)
 
 # Read the content from a text file
 with open('gpt4_dr2tracker_preprompt.txt', 'r') as file:
