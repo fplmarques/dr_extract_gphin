@@ -1,0 +1,156 @@
+"""
+You will help me to transform a htlm file that contains a series of summaries into a tab delimited text file that I can copy and paste into a Excel spreadsheet.
+
+*BELOW I PROVIDE SOME EXAMPLES* of html codes you might encounter and how to treat them:
+
+1. Whenever you detect a hyperlink associated with the summaries, for instance:
+
+ (</span><span style='mso-fareast-font-family:"Times New Roman"'><a
+     href="https://afludiary.blogspot.com/2024/11/usda-confirms-2nd-pig-on-oregon-farm.html"><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif'>Avian Flu Diary</span></a></span><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif;mso-fareast-font-family:
+     "Times New Roman"'>, </span><span style='mso-fareast-font-family:"Times New Roman"'> ...
+
+that should be transformed in an Excel hyperlink format like:
+
+=HYPERLINK("https://afludiary.blogspot.com/2024/11/usda-confirms-2nd-pig-on-oregon-farm.html", "Avian Flu Diary")
+Each summary have 1 to 3 associated hyperlinks.
+
+Be aware that in some instances, you will encounter a URL that directs to a PDF file and not a webpage. **Make sure to consider that and like appropriately.**
+
+2. Most summary entries, with the exception of the section "Research, Policies and Guidelines" have the following format:
+
+<ol style='margin-top:0cm' start=6 type=1>
+ <li class=MsoNormal style='text-align:justify;mso-list:l0 level1 lfo1'><b><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif;mso-fareast-font-family:
+     "Times New Roman"'>Sudan (Update):</span></b><span style='font-size:10.0pt;
+     font-family:"Arial",sans-serif;mso-fareast-font-family:"Times New Roman"'>
+     According to the United Nations aid coordination office, between July 22
+     and October 28, 28,376 <b>cholera</b> cases and 836 related deaths were
+     reported in 74 localities across 11 states. Kassala was the most affected,
+     with 6,868 cases and 198 deaths, followed by Gedaref (5,770 cases and 168
+     deaths), Aj Jazirah (4,361 cases and 90 deaths), and Northern (2,038 cases
+     and 28 deaths). The actual number of infections may be higher due to
+     underreporting. Many hospitals have limited operations or are completely
+     shut down due to supply and fuel shortages. (</span><span
+     style='mso-fareast-font-family:"Times New Roman"'><a
+     href="https://can01.safelinks.protection.outlook.com/?url=https%3A%2F%2Freports.unocha.org%2Fen%2Fcountry%2Fsudan%2Fcard%2F3FObQ8Aaoi%2F&amp;data=05%7C02%7CFernando.PortelladeLunaMarques%40phac-aspc.gc.ca%7C21110d9dc60f456e998408dcfd9b583a%7C42fd9015de4d4223a368baeacab48927%7C0%7C0%7C638664091022389936%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&amp;sdata=87m%2FS27jWAcHTp006wAIkCu23tlfdOmuJQKjLrhdYBU%3D&amp;reserved=0"><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif'>UNOCHA</span></a></span><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif;mso-fareast-font-family:
+     "Times New Roman"'>) &nbsp;<o:p></o:p></span></li>
+</ol>
+
+This is an update for the case of Cholera (in bold) in Sudan. This should be transformed as:
+
+event<TAB>mm/dd/yyyy<TAB>jurisdition<TAB>(Update): summary<TAB>Hyperlink
+
+
+"event" is bolded in the summary, and describe the event, in this example it would be Cholera;
+"mm/dd/yyyy" is the date of the report, usually the tade I am asking you to transform the html file, unless otherwise stated;
+"jurisdiction" is frequently a country, Canadian Province or Public Health institutions like WHO, PAHO, ECDC, CDC, among others;
+"summary" may or not be an update, is an update the text should start with "(Update):"
+"Hyperlink" was explanined above, I would add that would be desirable to include only the url withot the safe links protections of outlook that were imported into the html file.
+
+
+3. There are cases in which a single jurisdiction is associated with 2 or more summaries. In this case, you might encounter the following pattern:
+
+<ol style='margin-top:0cm' start=2 type=1>
+ <li class=MsoNormal style='text-align:justify;mso-list:l0 level1 lfo1'><b><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif;mso-fareast-font-family:
+     "Times New Roman"'>United States:</span></b><span style='font-size:10.0pt;
+     font-family:"Arial",sans-serif;mso-fareast-font-family:"Times New Roman"'>
+     <o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-size:10.0pt;
+font-family:"Arial",sans-serif'><o:p>&nbsp;</o:p></span></p>
+
+<ol style='margin-top:0cm' start=1 type=a>
+ <li class=MsoNormal style='margin-left:18.0pt;mso-add-space:auto;text-align:
+     justify;mso-list:l2 level1 lfo3'><b><span style='font-size:10.0pt;
+     font-family:"Arial",sans-serif;mso-fareast-font-family:"Times New Roman"'>(Update):</span></b><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif;mso-fareast-font-family:
+     "Times New Roman"'> With 4 new human <b>H5 avian influenza</b> infections,
+     the California Department of Public Health (CDPH) has reported a total of
+     20 cases as of November 4, of which 17 have been confirmed by CDC testing.
+     The CDPH also notes 1 other probable case in a dairy worker who met the
+     probable case definition and had a sample that tested positive at a local
+     lab; however, CDC's confirmation test was negative. The CDC's latest
+     update on November 4 reported a total of 44 human cases in the US for
+     2024. (</span><span style='mso-fareast-font-family:"Times New Roman"'><a
+     href="https://can01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.cidrap.umn.edu%2Favian-influenza-bird-flu%2Fcalifornia-washington-report-more-suspected-h5-avian-flu-cases&amp;data=05%7C02%7CFernando.PortelladeLunaMarques%40phac-aspc.gc.ca%7C21110d9dc60f456e998408dcfd9b583a%7C42fd9015de4d4223a368baeacab48927%7C0%7C0%7C638664091022306916%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&amp;sdata=AcBEHmBedIdJZoKJxyHxKcR5wcicJGfQDwsdXyLfFFc%3D&amp;reserved=0"><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif'>CIDRAP</span></a></span><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif;mso-fareast-font-family:
+     "Times New Roman"'>, </span><span style='mso-fareast-font-family:"Times New Roman"'><a
+     href="https://can01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.cdph.ca.gov%2FPrograms%2FCID%2FDCDC%2FPages%2FBird-Flu.aspx&amp;data=05%7C02%7CFernando.PortelladeLunaMarques%40phac-aspc.gc.ca%7C21110d9dc60f456e998408dcfd9b583a%7C42fd9015de4d4223a368baeacab48927%7C0%7C0%7C638664091022319098%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&amp;sdata=EEubRZiSaw5UkpE5nFziwR2tFsXXcQdkvIetcQs2W2U%3D&amp;reserved=0"><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif'>CDPH</span></a></span><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif;mso-fareast-font-family:
+     "Times New Roman"'>, </span><span style='mso-fareast-font-family:"Times New Roman"'><a
+     href="https://can01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.cdc.gov%2Fbird-flu%2Fsituation-summary%2Findex.html&amp;data=05%7C02%7CFernando.PortelladeLunaMarques%40phac-aspc.gc.ca%7C21110d9dc60f456e998408dcfd9b583a%7C42fd9015de4d4223a368baeacab48927%7C0%7C0%7C638664091022330646%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&amp;sdata=R0Ddw2H3%2FkIdoTGBwL2kPHSRBNyqOkM%2FFFnWMFpKjvQ%3D&amp;reserved=0"><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif'>CDC</span></a></span><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif;mso-fareast-font-family:
+     "Times New Roman"'>) <span style='mso-ligatures:standardcontextual'><o:p></o:p></span></span></li>
+</ol>
+
+<p class=MsoNormal style='text-align:justify'><span style='font-family:"Aptos",sans-serif'><o:p>&nbsp;</o:p></span></p>
+
+<ol start=2 type=a>
+ <li class=MsoListParagraph style='margin-left:18.0pt;mso-add-space:auto;
+     text-align:justify;mso-list:l2 level1 lfo3'><span style='font-size:10.0pt;
+     font-family:"Arial",sans-serif;mso-fareast-font-family:"Times New Roman";
+     mso-ligatures:none'>On November 1, the Midland County Department of Public
+     Health in Michigan reported a fourfold increase in <b>pneumonia</b>
+     diagnoses among children and adolescents aged 5 to 19 from August 1 to
+     October 16, 2024, compared to the same period in 2023. Additionally, there
+     was an increase in infections caused by <b><i>Mycoplasma pneumoniae</i></b>
+     and <b>pertussis</b>. (</span><span style='mso-fareast-font-family:"Times New Roman"'><a
+     href="https://can01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.ourmidland.com%2Fnews%2Farticle%2Fcounty-health-dept-notes-increase-walking-19874238.php&amp;data=05%7C02%7CFernando.PortelladeLunaMarques%40phac-aspc.gc.ca%7C21110d9dc60f456e998408dcfd9b583a%7C42fd9015de4d4223a368baeacab48927%7C0%7C0%7C638664091022342128%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&amp;sdata=IxvOjAJJC%2FljO8sfLwiIdDt%2FZlGpvSCijroe%2FpAOODI%3D&amp;reserved=0"><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif;mso-ligatures:none'>Midland
+     Daily News</span></a></span><span style='font-size:10.0pt;font-family:
+     "Arial",sans-serif;mso-fareast-font-family:"Times New Roman";mso-ligatures:
+     none'>) <o:p></o:p></span></li>
+</ol>
+
+In the example above, you should return 2 entries for United states. Similar to this:
+
+H5 avian influenza<TAB>11/08/2024<TAB>United States<TAB>(Update): With 4 new human H5 avian influenza infections, the California Department of Public Health (CDPH) has reported a total of 20 cases as of November 4, of which 17 have been confirmed by CDC testing. The CDPH also notes 1 other probable case in a dairy worker who met the probable case definition and had a sample that tested positive at a local lab; however, CDC's confirmation test was negative. The CDC's latest update on November 4 reported a total of 44 human cases in the US for 2024.<TAB>Hyperlink01<TAB>Hyperlink02<TAB>Hyperlink03
+
+pneumonia<TAB>11/08/2024<TAB>United States<TAB>On November 1, the Midland County Department of Public Health in Michigan reported a fourfold increase in pneumonia diagnoses among children and adolescents aged 5 to 19 from August 1 to October 16, 2024, compared to the same period in 2023. Additionally, there was an increase in infections caused by Mycoplasma pneumoniae and pertussis.<TAB>hyperlink
+
+4. Finally, the summaries in the "Research, Policies and Guidelines" have similar format, with few modifications. Consider this example:
+
+<ol style='margin-top:0cm' start=7 type=1>
+ <li class=MsoNormal style='text-align:justify;mso-list:l0 level1 lfo1'><b><span
+     style='font-size:10.0pt;font-family:"Arial",sans-serif;mso-fareast-font-family:
+     "Times New Roman"'>Immune history shapes human antibody responses to H5N1
+     influenza viruses, United States</span></b><span style='font-size:10.0pt;
+     font-family:"Arial",sans-serif;mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal style='margin-left:36.0pt;mso-add-space:auto;text-align:
+justify'><span style='font-size:10.0pt;font-family:"Arial",sans-serif'>This
+preprint study examines circulating <b>avian H5N1 influenza</b> viruses in
+cattle and other mammals, highlighting their potential risk for a human
+pandemic. Previous research suggests that older individuals may have greater
+resistance to H5N1 infections due to childhood exposure to other group 1
+viruses (H1N1 and H2N2), although the immunological basis is unclear. Findings
+show that antibody titers to both historical and recent H5N1 strains are
+highest in older individuals and correlate more with year of birth than with
+age, supporting immune imprinting. After vaccination with the
+A/Vietnam/1203/2004 H5N1 vaccine, both younger and older individuals produced
+H5-reactive antibodies to the vaccine strain and to a currently circulating
+clade 2.3.4.4b isolate. Notably, younger children demonstrated higher
+seroconversion rates despite lower pre-vaccination antibody levels. These
+results suggest that younger individuals may benefit more from vaccination in
+the event of an H5N1 pandemic. (</span><a
+href="https://can01.safelinks.protection.outlook.com/?url=https%3A%2F%2Fwww.medrxiv.org%2Fcontent%2F10.1101%2F2024.10.31.24316514v1&amp;data=05%7C02%7CFernando.PortelladeLunaMarques%40phac-aspc.gc.ca%7C21110d9dc60f456e998408dcfd9b583a%7C42fd9015de4d4223a368baeacab48927%7C0%7C0%7C638664091022401775%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&amp;sdata=n9Hrk4CNVZPjRc5P6OQQhkLh%2BTir7Avtbve5eeXXAfE%3D&amp;reserved=0"><i><span
+style='font-size:10.0pt;font-family:"Arial",sans-serif'>MedRxiv</span></i></a><span
+style='font-size:10.0pt;font-family:"Arial",sans-serif'>)<o:p></o:p></span></p>
+
+The first item in the ordered list (<ol> .. </ol>) is the title, which is generally followed by the jurisdiction after the comma. In this particular example, the title is "Immune history shapes human antibody responses to H5N1 influenza viruses" and the jurisdiction is "United States". The next paragraph contains the summary with the bolded term for the description, in this example "avian H5N1 influenza" is the event. Finally you have the hyperlinked reference associated with the article. It is necessary to join the title with the summary by a semicolon to output this in Excel. It should be something like:
+
+avian H5N1 influenza<TAB>11/08/2024<TAB>United States<TAB>Immune history shapes human antibody responses to H5N1 influenza viruses, United States: This preprint study examines circulating avian H5N1 influenza viruses in cattle and other mammals, highlighting their potential risk for a human pandemic. Previous research suggests that older individuals may have greater resistance to H5N1 infections due to childhood exposure to other group 1 viruses (H1N1 and H2N2), although the immunological basis is unclear. Findings show that antibody titers to both historical and recent H5N1 strains are highest in older individuals and correlate more with year of birth than with age, supporting immune imprinting. After vaccination with the A/Vietnam/1203/2004 H5N1 vaccine, both younger and older individuals produced H5-reactive antibodies to the vaccine strain and to a currently circulating clade 2.3.4.4b isolate. Notably, younger children demonstrated higher seroconversion rates despite lower pre-vaccination antibody levels. These results suggest that younger individuals may benefit more from vaccination in the event of an H5N1 pandemic.<TAB>hyperlink
+
+
+Below it is the html file that I need to you output in tab separated format according to the instructions above. The out put should contain **only populated lines** that will be copied an pasted into Excel. **BEFORE THE OUTPUT** do a revision of it making sure that (1) all TABS were inserted between fields, (2) that no empty lines is included in the outputusing no empty lines between entries, (3) thal full summaries have been included, (4) and that you are using today's date unless otherwised asked to consider a particular date.
+"""
